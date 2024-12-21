@@ -1,0 +1,58 @@
+{
+  "short_name": "Campus Connect",
+  "name": "Campus Connect - Campus Management System",
+  "description": "A modern campus management system for professors and students",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#464EB8",
+  "background_color": "#F5F5F5",
+  "orientation": "portrait",
+  "categories": ["education", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "/dashboard",
+      "description": "View your dashboard"
+    },
+    {
+      "name": "Courses",
+      "url": "/courses",
+      "description": "View your courses"
+    },
+    {
+      "name": "Chat",
+      "url": "/chat",
+      "description": "Open chat"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Dashboard View"
+    }
+  ]
+}
