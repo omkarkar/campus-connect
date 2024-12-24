@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid,
   Card,
@@ -13,7 +13,6 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
-  Chip,
   InputAdornment,
   Fab,
 } from '@mui/material';
@@ -25,48 +24,76 @@ import {
   Edit as EditIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { addCourse } from '../../store/slices/coursesSlice';
-import { Course } from '../../types';
+import { observer } from 'mobx-react-lite';
+import { useAuthStore, useCoursesStore } from '../../store/mob/RootStore';
+import { coursesStore } from '../../store/mob/CoursesStore';
 
-const Courses: React.FC = () => {
+const Courses = observer(() => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
-  const courses = useAppSelector((state) => state.courses.courses);
+  const authStore = useAuthStore();
+  const user = authStore.user;
   const isProfessor = user?.role === 'professor';
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [validationError, setValidationError] = useState<string | null>(null);
   const [newCourse, setNewCourse] = useState({
-    name: '',
+    title: '',
     description: '',
+    instructor: user?.name || '',
     schedule: [],
+    students: []
   });
 
-  const handleOpenDialog = () => setIsDialogOpen(true);
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-    setNewCourse({ name: '', description: '', schedule: [] });
+  useEffect(() => {
+    coursesStore.fetchCourses();
+  }, []);
+
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true);
+    setValidationError(null);
   };
 
-  const handleCreateCourse = () => {
-    if (newCourse.name && newCourse.description) {
-      const course: Course = {
-        id: Date.now().toString(),
-        name: newCourse.name,
-        professorId: user?.id || '',
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setValidationError(null);
+    setNewCourse({
+      title: '',
+      description: '',
+      instructor: user?.name || '',
+      schedule: [],
+      students: []
+    });
+  };
+
+  const handleCreateCourse = async () => {
+    // Validate inputs
+    if (!newCourse.title.trim()) {
+      setValidationError('Course title is required');
+      return;
+    }
+
+    if (!newCourse.description.trim()) {
+      setValidationError('Course description is required');
+      return;
+    }
+
+    try {
+      await coursesStore.addCourse({
+        title: newCourse.title.trim(),
+        description: newCourse.description.trim(),
+        instructor: newCourse.instructor,
         schedule: [],
-        students: [],
-      };
-      
-      dispatch(addCourse(course));
+        students: []
+      });
       handleCloseDialog();
+    } catch (error) {
+      setValidationError('Failed to create course. Please try again.');
     }
   };
 
-  const filteredCourses = courses.filter(course =>
-    course.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCourses = coursesStore.courses.filter(course =>
+      course.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleCourseClick = (courseId: string) => {
@@ -74,118 +101,167 @@ const Courses: React.FC = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, alignItems: 'center' }}>
-        <Typography variant="h4">Courses</Typography>
-        {isProfessor && (
-          <Fab
-            color="primary"
-            aria-label="add course"
-            onClick={handleOpenDialog}
-            sx={{ ml: 2 }}
-          >
-            <AddIcon />
-          </Fab>
+      <Box sx={{ flexGrow: 1, p: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, alignItems: 'center' }}>
+          <Typography variant="h4">Courses</Typography>
+          {isProfessor && (
+              <Fab
+                  color="primary"
+                  aria-label="add course"
+                  onClick={handleOpenDialog}
+                  sx={{ ml: 2 }}
+              >
+                <AddIcon />
+              </Fab>
+          )}
+        </Box>
+
+        <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Search courses..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            sx={{ mb: 4 }}
+            InputProps={{
+              startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+              ),
+            }}
+        />
+
+        {coursesStore.loading ? (
+            <Typography>Loading courses...</Typography>
+        ) : coursesStore.error ? (
+            <Typography color="error">{coursesStore.error}</Typography>
+        ) : (
+            <Grid container spacing={3}>
+              {filteredCourses.map((course) => (
+                  <Grid item xs={12} sm={6} md={4} key={course.id}>
+                    <Card
+                        sx={{
+                          height: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          cursor: 'pointer',
+                          '&:hover': {
+                            boxShadow: 6,
+                          },
+                        }}
+                        onClick={() => handleCourseClick(course.id)}
+                    >
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {course.title}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                          <PeopleIcon sx={{ mr: 1 }} color="action" />
+                          <Typography variant="body2" color="text.secondary">
+                            {course.students.length} Students
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <EventIcon sx={{ mr: 1 }} color="action" />
+                          <Typography variant="body2" color="text.secondary">
+                            {course.schedule.length} Sessions
+                          </Typography>
+                        </Box>
+                      </CardContent>
+                      <CardActions>
+                        <Button
+                            size="small"
+                            color="primary"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/courses/${course.id}`);
+                            }}
+                        >
+                          View Details
+                        </Button>
+                        {isProfessor && (
+                            <IconButton
+                                size="small"
+                                color="primary"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  // TODO: Implement edit course functionality
+                                }}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                        )}
+                      </CardActions>
+                    </Card>
+                  </Grid>
+              ))}
+            </Grid>
         )}
-      </Box>
 
-      <TextField
-        fullWidth
-        variant="outlined"
-        placeholder="Search courses..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        sx={{ mb: 4 }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-
-      <Grid container spacing={3}>
-        {filteredCourses.map((course) => (
-          <Grid item xs={12} sm={6} md={4} key={course.id}>
-            <Card
-              sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                cursor: 'pointer',
-                '&:hover': {
-                  boxShadow: 6,
-                },
-              }}
-              onClick={() => handleCourseClick(course.id)}
-            >
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {course.name}
+        {/* Create Course Dialog */}
+        <Dialog
+            open={isDialogOpen}
+            onClose={handleCloseDialog}
+            maxWidth="sm"
+            fullWidth
+        >
+          <DialogTitle>Create New Course</DialogTitle>
+          <DialogContent>
+            {validationError && (
+                <Typography
+                    color="error"
+                    variant="body2"
+                    sx={{ mb: 2 }}
+                >
+                  {validationError}
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <PeopleIcon sx={{ mr: 1 }} color="action" />
-                  <Typography variant="body2" color="text.secondary">
-                    {course.students.length} Students
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <EventIcon sx={{ mr: 1 }} color="action" />
-                  <Typography variant="body2" color="text.secondary">
-                    {course.schedule.length} Sessions
-                  </Typography>
-                </Box>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  View Details
-                </Button>
-                {isProfessor && (
-                  <IconButton size="small" color="primary">
-                    <EditIcon />
-                  </IconButton>
-                )}
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* Create Course Dialog */}
-      <Dialog open={isDialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>Create New Course</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Course Name"
-            type="text"
-            fullWidth
-            value={newCourse.name}
-            onChange={(e) => setNewCourse({ ...newCourse, name: e.target.value })}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label="Course Description"
-            type="text"
-            fullWidth
-            multiline
-            rows={4}
-            value={newCourse.description}
-            onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleCreateCourse} variant="contained" color="primary">
-            Create
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+            )}
+            <TextField
+                autoFocus
+                margin="dense"
+                label="Course Title"
+                type="text"
+                fullWidth
+                value={newCourse.title}
+                onChange={(e) => {
+                  setNewCourse({ ...newCourse, title: e.target.value });
+                  setValidationError(null);
+                }}
+                sx={{ mb: 2 }}
+                error={!!validationError && !newCourse.title.trim()}
+                helperText={!!validationError && !newCourse.title.trim() ? 'Course title is required' : ''}
+            />
+            <TextField
+                margin="dense"
+                label="Course Description"
+                type="text"
+                fullWidth
+                multiline
+                rows={4}
+                value={newCourse.description}
+                onChange={(e) => {
+                  setNewCourse({ ...newCourse, description: e.target.value });
+                  setValidationError(null);
+                }}
+                error={!!validationError && !newCourse.description.trim()}
+                helperText={!!validationError && !newCourse.description.trim() ? 'Course description is required' : ''}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button
+                onClick={handleCreateCourse}
+                variant="contained"
+                color="primary"
+                disabled={coursesStore.loading}
+            >
+              Create
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
   );
-};
+});
 
 export default Courses;

@@ -24,7 +24,7 @@ import {
   School as SchoolIcon,
   Assignment as AssignmentIcon,
 } from '@mui/icons-material';
-import { useAppSelector } from '../store/hooks';
+import {useCoursesStore} from "../store/mob/RootStore";
 
 interface CourseAnalytics {
   courseId: string;
@@ -42,8 +42,9 @@ interface CourseAnalytics {
   needsImprovement: string[];
 }
 
-const Analytics: React.FC = () => {
-  const courses = useAppSelector((state) => state.courses.courses);
+const Analytics = () => {
+  const coursesStore = useCoursesStore();
+  const { courses } = coursesStore;
   const [selectedCourse, setSelectedCourse] = useState<string>('all');
 
   // Mock analytics data - replace with Redux state
@@ -100,7 +101,7 @@ const Analytics: React.FC = () => {
                 <MenuItem value="all">All Courses</MenuItem>
                 {courses.map((course) => (
                   <MenuItem key={course.id} value={course.id}>
-                    {course.name}
+                    {course.title}
                   </MenuItem>
                 ))}
               </Select>
