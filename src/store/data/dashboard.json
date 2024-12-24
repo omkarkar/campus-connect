@@ -1,0 +1,126 @@
+{
+  "widgets": [
+    {
+      "id": "widget1",
+      "type": "upcoming_assignments",
+      "data": [
+        {
+          "id": "assign1",
+          "title": "Python Basics Assignment",
+          "courseId": "cs101",
+          "dueDate": "2023-10-15T23:59:00Z"
+        },
+        {
+          "id": "assign2",
+          "title": "Matrix Transformation Project",
+          "courseId": "math202",
+          "dueDate": "2023-10-20T23:59:00Z"
+        }
+      ]
+    },
+    {
+      "id": "widget2",
+      "type": "recent_notifications",
+      "data": [
+        {
+          "id": "notif1",
+          "title": "Assignment Reminder",
+          "message": "CS 101 Python Basics Assignment is due in 3 days"
+        },
+        {
+          "id": "notif2",
+          "title": "New Course Material",
+          "message": "New lecture notes uploaded for Linear Algebra"
+        }
+      ]
+    },
+    {
+      "id": "widget3",
+      "type": "unread_messages",
+      "data": {
+        "count": 2,
+        "conversations": [
+          {
+            "id": "conv1",
+            "participants": [
+              {
+                "id": "student1",
+                "name": "Emily Johnson"
+              },
+              {
+                "id": "student2",
+                "name": "Alex Rodriguez"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "widget4",
+      "type": "course_summary",
+      "data": {
+        "totalCourses": 2,
+        "courses": [
+          {
+            "id": "cs101",
+            "title": "Introduction to Computer Science",
+            "code": "CS 101"
+          },
+          {
+            "id": "math202",
+            "title": "Linear Algebra",
+            "code": "MATH 202"
+          }
+        ]
+      }
+    },
+    {
+      "id": "widget5",
+      "type": "performance_overview",
+      "data": {
+        "gpa": 3.5,
+        "totalAssignments": 3,
+        "averageScore": 85.5,
+        "topPerformingCourses": [
+          {
+            "id": "math202",
+            "title": "Linear Algebra",
+            "grade": 92
+          },
+          {
+            "id": "cs101",
+            "title": "Introduction to Computer Science",
+            "grade": 85
+          }
+        ]
+      }
+    }
+  ],
+  "upcomingEvents": [
+    {
+      "id": "event1",
+      "title": "Midterm Exam - Computer Science",
+      "date": "2023-10-25T10:00:00Z",
+      "type": "exam"
+    },
+    {
+      "id": "event2",
+      "title": "Guest Lecture - Machine Learning",
+      "date": "2023-11-05T14:00:00Z",
+      "type": "lecture"
+    }
+  ],
+  "recentActivities": [
+    {
+      "id": "activity1",
+      "title": "Submitted Python Basics Assignment",
+      "timestamp": "2023-10-15T14:30:00Z"
+    },
+    {
+      "id": "activity2",
+      "title": "Graded for Matrix Transformation Project",
+      "timestamp": "2023-10-20T10:15:00Z"
+    }
+  ]
+}

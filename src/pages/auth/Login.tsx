@@ -13,18 +13,17 @@ import {
   Alert,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { loginStart, loginSuccess, loginFailure } from '../../store/slices/authSlice';
+import { observer } from 'mobx-react-lite';
+import { useAuthStore } from '../../store/mob/RootStore';
 
-const Login: React.FC = () => {
+const Login: React.FC = ({ children }: { children?: React.ReactNode } = {}) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.auth);
+  const authStore = useAuthStore();
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    role: 'student',
+    role: 'student' as 'student' | 'professor',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,23 +37,13 @@ const Login: React.FC = () => {
     e.preventDefault();
     
     try {
-      dispatch(loginStart());
+      await authStore.login(formData.email, formData.password);
 
-      // TODO: Replace with actual API call
-      // Simulating API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Mock successful login
-      dispatch(loginSuccess({
-        id: '1',
-        name: formData.role === 'professor' ? 'Dr. Smith' : 'John Doe',
-        email: formData.email,
-        role: formData.role as 'student' | 'professor',
-      }));
-
-      navigate('/dashboard');
+      if (authStore.isAuthenticated) {
+        navigate('/dashboard');
+      }
     } catch (error) {
-      dispatch(loginFailure('Invalid credentials'));
+      console.error('Login failed', error);
     }
   };
 
@@ -83,9 +72,9 @@ const Login: React.FC = () => {
             Campus Connect
           </Typography>
 
-          {error && (
+          {authStore.error && (
             <Alert severity="error" sx={{ mb: 2, width: '100%' }}>
-              {error}
+              {authStore.error}
             </Alert>
           )}
 
@@ -144,9 +133,9 @@ const Login: React.FC = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={loading}
+              disabled={authStore.loading}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {authStore.loading ? 'Signing in...' : 'Sign In'}
             </Button>
           </Box>
         </Paper>
@@ -155,4 +144,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default observer(Login);

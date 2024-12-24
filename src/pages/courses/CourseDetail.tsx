@@ -32,8 +32,8 @@ import {
   Add as AddIcon,
 } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { setCurrentCourse } from '../../store/slices/coursesSlice';
+import { observer } from 'mobx-react-lite';
+import { useAuthStore, useCoursesStore } from '../../store/mob/RootStore';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -56,25 +56,22 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
 
 const CourseDetail: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
-  const dispatch = useAppDispatch();
-  const course = useAppSelector((state) => state.courses.currentCourse);
-  const user = useAppSelector((state) => state.auth.user);
-  const notes = useAppSelector((state) => state.courses.notes);
+  const authStore = useAuthStore();
+  const coursesStore = useCoursesStore();
+  const { user } = authStore;
+  const { selectedCourse: course, notes } = coursesStore;
   const isProfessor = user?.role === 'professor';
 
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     if (courseId) {
-      // In a real app, you would fetch the course details here
-      const currentCourse = useAppSelector((state) => 
-        state.courses.courses.find(c => c.id === courseId)
-      );
+      const currentCourse = coursesStore.courses.find(c => c.id === courseId);
       if (currentCourse) {
-        dispatch(setCurrentCourse(currentCourse));
+        coursesStore.selectCourse(courseId);
       }
     }
-  }, [courseId, dispatch]);
+  }, [courseId, coursesStore]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -88,7 +85,7 @@ const CourseDetail: React.FC = () => {
     <Box sx={{ flexGrow: 1 }}>
       <Paper sx={{ p: 3, mb: 3 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="h4">{course.name}</Typography>
+          <Typography variant="h4">{course.title}</Typography>
           {isProfessor && (
             <IconButton color="primary">
               <EditIcon />
@@ -235,4 +232,4 @@ const CourseDetail: React.FC = () => {
   );
 };
 
-export default CourseDetail;
+export default observer(CourseDetail);
