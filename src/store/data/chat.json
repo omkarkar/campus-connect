@@ -1,0 +1,83 @@
+{
+  "chatRooms": [
+    {
+      "id": "room1",
+      "name": "CS 101 Study Group",
+      "type": "group",
+      "participants": [
+        { "id": "student1", "name": "Emily Johnson" },
+        { "id": "student2", "name": "Alex Rodriguez" },
+        { "id": "student3", "name": "Sarah Kim" }
+      ]
+    },
+    {
+      "id": "room2",
+      "name": "Math 202 Discussion",
+      "type": "group",
+      "participants": [
+        { "id": "student1", "name": "Emily Johnson" },
+        { "id": "student4", "name": "Michael Chen" }
+      ]
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv1",
+      "participants": [
+        { 
+          "id": "student1", 
+          "name": "Emily Johnson", 
+          "avatar": "https://randomuser.me/api/portraits/women/79.jpg" 
+        },
+        { 
+          "id": "student2", 
+          "name": "Alex Rodriguez", 
+          "avatar": "https://randomuser.me/api/portraits/men/32.jpg" 
+        }
+      ],
+      "messages": [
+        {
+          "id": "msg1",
+          "senderId": "student1",
+          "senderName": "Emily Johnson",
+          "content": "Hey, can we discuss the Python assignment?",
+          "timestamp": "2023-10-15T14:30:00Z",
+          "read": false,
+          "chatRoomId": "room1"
+        },
+        {
+          "id": "msg2",
+          "senderId": "student2",
+          "senderName": "Alex Rodriguez",
+          "content": "Sure! What part are you stuck on?",
+          "timestamp": "2023-10-15T14:35:00Z",
+          "read": false,
+          "chatRoomId": "room1"
+        }
+      ],
+      "lastMessageTimestamp": "2023-10-15T14:35:00Z"
+    }
+  ],
+  "messages": {
+    "room1": [
+      {
+        "id": "msg1",
+        "senderId": "student1",
+        "senderName": "Emily Johnson",
+        "content": "Hey, can we discuss the Python assignment?",
+        "timestamp": "2023-10-15T14:30:00Z",
+        "read": false,
+        "chatRoomId": "room1"
+      },
+      {
+        "id": "msg2",
+        "senderId": "student2",
+        "senderName": "Alex Rodriguez",
+        "content": "Sure! What part are you stuck on?",
+        "timestamp": "2023-10-15T14:35:00Z",
+        "read": false,
+        "chatRoomId": "room1"
+      }
+    ]
+  }
+}

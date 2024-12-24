@@ -1,0 +1,138 @@
+{
+  "courses": [
+    {
+      "id": "cs101",
+      "title": "Introduction to Computer Science",
+      "code": "CS 101",
+      "instructor": "Dr. Emily Johnson",
+      "semester": "Spring 2025",
+      "description": "Fundamental concepts of computer science and programming with Python. Topics include algorithms, data structures, and basic software engineering principles.",
+      "students": ["student1", "student2", "student3", "student4", "student5"],
+      "schedule": [
+        {
+          "id": "session1",
+          "dayOfWeek": "2025-01-14T09:00:00Z",
+          "startTime": "09:00 AM",
+          "endTime": "10:30 AM",
+          "room": "Science Building 101"
+        },
+        {
+          "id": "session2",
+          "dayOfWeek": "2025-01-16T09:00:00Z",
+          "startTime": "09:00 AM",
+          "endTime": "10:30 AM",
+          "room": "Science Building 101"
+        }
+      ]
+    },
+    {
+      "id": "math202",
+      "title": "Linear Algebra",
+      "code": "MATH 202",
+      "instructor": "Dr. Michael Chen",
+      "semester": "Spring 2025",
+      "description": "Advanced linear algebra and matrix theory, covering vector spaces, linear transformations, eigenvalues, and applications to computer graphics.",
+      "students": ["student1", "student3", "student6"],
+      "schedule": [
+        {
+          "id": "session1",
+          "dayOfWeek": "2025-01-15T14:00:00Z",
+          "startTime": "02:00 PM",
+          "endTime": "03:30 PM",
+          "room": "Mathematics Building 205"
+        },
+        {
+          "id": "session2",
+          "dayOfWeek": "2025-01-17T14:00:00Z",
+          "startTime": "02:00 PM",
+          "endTime": "03:30 PM",
+          "room": "Mathematics Building 205"
+        }
+      ]
+    },
+    {
+      "id": "phys301",
+      "title": "Quantum Mechanics",
+      "code": "PHYS 301",
+      "instructor": "Dr. Sarah Martinez",
+      "semester": "Spring 2025",
+      "description": "Introduction to quantum mechanics, wave functions, Schrödinger equation, and applications to modern physics.",
+      "students": ["student2", "student4", "student7", "student8"],
+      "schedule": [
+        {
+          "id": "session1",
+          "dayOfWeek": "2025-01-14T11:00:00Z",
+          "startTime": "11:00 AM",
+          "endTime": "12:30 PM",
+          "room": "Physics Building 302"
+        },
+        {
+          "id": "session2",
+          "dayOfWeek": "2025-01-16T11:00:00Z",
+          "startTime": "11:00 AM",
+          "endTime": "12:30 PM",
+          "room": "Physics Building 302"
+        }
+      ]
+    },
+    {
+      "id": "bio204",
+      "title": "Molecular Biology",
+      "code": "BIO 204",
+      "instructor": "Dr. James Wilson",
+      "semester": "Spring 2025",
+      "description": "Advanced study of molecular biology, including DNA structure, protein synthesis, and cellular processes.",
+      "students": ["student5", "student6", "student9", "student10"],
+      "schedule": [
+        {
+          "id": "session1",
+          "dayOfWeek": "2025-01-15T09:00:00Z",
+          "startTime": "09:00 AM",
+          "endTime": "10:30 AM",
+          "room": "Life Sciences 405"
+        },
+        {
+          "id": "session2",
+          "dayOfWeek": "2025-01-17T09:00:00Z",
+          "startTime": "09:00 AM",
+          "endTime": "10:30 AM",
+          "room": "Life Sciences 405"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "id": "note1",
+      "courseId": "cs101",
+      "title": "Introduction to Python Programming",
+      "content": "Essential Python concepts including variables, control structures, and functions. Code examples and practice problems included.",
+      "createdAt": "2024-12-20T10:00:00Z",
+      "link": "https://example.com/cs101/python-intro"
+    },
+    {
+      "id": "note2",
+      "courseId": "math202",
+      "title": "Matrix Operations and Transformations",
+      "content": "Comprehensive guide to matrix operations, including multiplication, inversion, and eigenvalue calculations.",
+      "createdAt": "2024-12-21T14:30:00Z",
+      "link": "https://example.com/math202/matrix-ops"
+    },
+    {
+      "id": "note3",
+      "courseId": "phys301",
+      "title": "Wave Functions and Probability",
+      "content": "Detailed explanation of wave functions, probability densities, and their applications in quantum systems.",
+      "createdAt": "2024-12-22T11:15:00Z",
+      "link": "https://example.com/phys301/wave-functions"
+    },
+    {
+      "id": "note4",
+      "courseId": "bio204",
+      "title": "DNA Replication Process",
+      "content": "Step-by-step breakdown of DNA replication, including key enzymes and cellular mechanisms.",
+      "createdAt": "2024-12-23T09:45:00Z",
+      "link": "https://example.com/bio204/dna-replication"
+    }
+  ]
+}

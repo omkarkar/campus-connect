@@ -1,0 +1,44 @@
+{
+  "notifications": [
+    {
+      "id": "notif1",
+      "title": "Assignment Reminder",
+      "message": "CS 101 Python Basics Assignment is due in 3 days",
+      "type": "warning",
+      "timestamp": "2023-10-12T10:30:00Z",
+      "read": false
+    },
+    {
+      "id": "notif2",
+      "title": "New Course Material",
+      "message": "New lecture notes uploaded for Linear Algebra",
+      "type": "info",
+      "timestamp": "2023-10-13T15:45:00Z",
+      "read": false
+    },
+    {
+      "id": "notif3",
+      "title": "Grade Posted",
+      "message": "Your Python Basics Assignment has been graded",
+      "type": "success",
+      "timestamp": "2023-10-20T14:30:00Z",
+      "read": false
+    },
+    {
+      "id": "notif4",
+      "title": "System Maintenance",
+      "message": "Campus Connect will be undergoing maintenance on Sunday at 2 AM",
+      "type": "info",
+      "timestamp": "2023-10-11T18:00:00Z",
+      "read": true
+    },
+    {
+      "id": "notif5",
+      "title": "Registration Alert",
+      "message": "Spring 2024 course registration opens next week",
+      "type": "warning",
+      "timestamp": "2023-10-10T14:20:00Z",
+      "read": false
+    }
+  ]
+}

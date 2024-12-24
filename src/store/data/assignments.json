@@ -1,0 +1,65 @@
+{
+  "assignments": [
+    {
+      "id": "assign1",
+      "courseId": "cs101",
+      "title": "Python Basics Assignment",
+      "description": "Create a simple Python script demonstrating basic programming concepts including variables, loops, and functions.",
+      "dueDate": "2024-12-30T23:59:00Z",
+      "maxScore": 100,
+      "totalPoints": 100,
+      "type": "homework",
+      "status": "not_started"
+    },
+    {
+      "id": "assign2",
+      "courseId": "math202",
+      "title": "Matrix Transformation Project",
+      "description": "Implement matrix transformations using linear algebra principles.",
+      "dueDate": "2024-12-25T23:59:00Z",
+      "maxScore": 150,
+      "totalPoints": 150,
+      "type": "project",
+      "status": "in_progress",
+      "studentSubmission": {
+        "submissionDate": "2024-12-20T14:30:00Z",
+        "submissionLink": "project_draft_v1.pdf",
+        "feedback": "Draft submitted for initial review"
+      }
+    },
+    {
+      "id": "assign3",
+      "courseId": "cs101",
+      "title": "Object-Oriented Programming Challenge",
+      "description": "Design and implement a class hierarchy for a library management system.",
+      "dueDate": "2024-12-28T23:59:00Z",
+      "maxScore": 120,
+      "totalPoints": 120,
+      "type": "project",
+      "status": "submitted",
+      "studentSubmission": {
+        "submissionDate": "2024-12-15T18:45:00Z",
+        "submissionLink": "library_system.zip",
+        "score": 110,
+        "feedback": "Excellent work on inheritance implementation."
+      }
+    },
+    {
+      "id": "assign4",
+      "courseId": "phys301",
+      "title": "Quantum Mechanics Quiz",
+      "description": "Online quiz covering wave functions and quantum tunneling concepts.",
+      "dueDate": "2024-12-24T22:00:00Z",
+      "maxScore": 50,
+      "totalPoints": 50,
+      "type": "quiz",
+      "status": "graded",
+      "studentSubmission": {
+        "submissionDate": "2024-12-24T21:45:00Z",
+        "submissionLink": "quiz_responses.json",
+        "score": 45,
+        "feedback": "Outstanding performance!"
+      }
+    }
+  ]
+}
